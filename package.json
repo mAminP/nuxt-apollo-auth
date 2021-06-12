@@ -1,0 +1,37 @@
+{
+  "name": "nuxt-apollo-auth",
+  "version": "0.0.101-dev",
+  "description": "Auth Module for nuxt-apollo",
+  "license": "ISC",
+  "author": "Mohammad Amin Pasban",
+  "exports": {
+    ".": {
+      "require": "./dist/module.js"
+    }
+  },
+  "main": "./dist/module.js",
+  "typings": "./index.d.ts",
+  "files": [
+    "dist",
+    "index.d.ts"
+  ],
+  "scripts": {
+    "build": "siroc build && yarn build:types",
+    "build:types": "./scripts/types.sh"
+  },
+  "dependencies": {
+    "consola": "^2.15.3",
+    "defu": "^5.0.0"
+  },
+  "devDependencies": {
+    "@microsoft/api-extractor": "^7.16.1",
+    "@nuxt/types": "^2.15.6",
+    "@nuxtjs/apollo": "^4.0.1-rc.5",
+    "@types/node": "latest",
+    "apollo-link": "^1.2.14",
+    "nuxt": "^2.15.6",
+    "siroc": "^0.11.0",
+    "typescript": "latest",
+    "vue": "latest"
+  }
+}
