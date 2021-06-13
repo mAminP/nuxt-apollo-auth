@@ -1,6 +1,6 @@
 {
   "name": "nuxt-apollo-auth",
-  "version": "0.0.131-dev",
+  "version": "0.0.134-dev",
   "description": "Auth Module for nuxt-apollo",
   "repository": "mAminP/nuxt-apollo-auth",
   "license": "MIT",
