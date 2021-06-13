@@ -1,8 +1,8 @@
 ## ⚠ This package is under development ⚠
 # Setup
 
-- [Installation]('/#Installation')
-- [Using with TypeScript]('/#Using_with_TypeScript')
+- [Installation](#Installation)
+- [Using with TypeScript](#Using-with-TypeScript)
 
 ## Installation
 
