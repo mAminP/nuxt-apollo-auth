@@ -2,12 +2,13 @@
   "compilerOptions": {
     "target": "ESNext",
     "module": "ESNext",
-    "moduleResolution": "node",
+    "moduleResolution": "Node",
     "lib": [
       "DOM"
     ],
     "esModuleInterop": true,
     "resolveJsonModule": true,
+    "removeComments": false,
     "strict": false,
     "declaration": true,
     "baseUrl": ".",
@@ -21,6 +22,7 @@
     ]
   },
   "include": [
-    "./src"
- ]
+    "./src",
+    "plugins",
+    "plugin" ]
 }

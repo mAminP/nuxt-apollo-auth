@@ -1,23 +1,33 @@
 {
   "name": "nuxt-apollo-auth",
-  "version": "0.0.101-dev",
+  "version": "0.0.128-dev",
   "description": "Auth Module for nuxt-apollo",
-  "license": "ISC",
+  "repository": "mAminP/nuxt-apollo-auth",
+  "license": "MIT",
   "author": "Mohammad Amin Pasban",
   "exports": {
     ".": {
       "require": "./dist/module.js"
+    },
+    "./dist/module": {
+      "require": "./dist/module.js"
+    },
+    "./dist/runtime": {
+      "import": "./dist/runtime.mjs",
+      "require": "./dist/runtime.js"
     }
   },
   "main": "./dist/module.js",
   "typings": "./index.d.ts",
   "files": [
     "dist",
+    "templates",
     "index.d.ts"
   ],
   "scripts": {
     "build": "siroc build && yarn build:types",
-    "build:types": "./scripts/types.sh"
+    "build:types": "./scripts/types.sh",
+    "release": "npm publish"
   },
   "dependencies": {
     "consola": "^2.15.3",
@@ -33,5 +43,8 @@
     "siroc": "^0.11.0",
     "typescript": "latest",
     "vue": "latest"
+  },
+  "peerDependencies": {
+    "vue": "*"
   }
 }

@@ -1,15 +1,13 @@
+import 'vue'
+import '@nuxt/types'
 import { resolve, join } from 'path'
 import { readdirSync } from 'fs'
 import type { Module } from '@nuxt/types'
 import defu from 'defu'
-import { ModuleOptions, moduleDefaults } from './Options'
-
-import 'vue'
-import '@nuxt/types'
-import { Helpers } from './utils'
+import {Helpers} from "."
+import {ModuleOptions , moduleDefaults} from './runtime'
 
 const AuthModule:Module<ModuleOptions> = function (moduleOptions) {
-//   const { nuxt } = this
   const options: ModuleOptions = defu(moduleOptions, this.options.qAuth!, moduleDefaults)
 
   if (!options.enable) {
@@ -19,39 +17,23 @@ const AuthModule:Module<ModuleOptions> = function (moduleOptions) {
   const helper = new Helpers(options)
   helper._checkModuleOptionsForInitializeModule()
 
-  // add all of the initial plugins
-  const pluginsToSync = [
-    'store/index.ts',
-    'plugins/index.ts'
-  ]
-  const foldersToSync: string[] = [
-    'store/modules', 'core/', 'utils/'
-  ]
 
-  this.nuxt.hook('ready', () => {
-    for (const pathString of pluginsToSync) {
-      this.addPlugin({
-        src: resolve(__dirname, pathString),
-        fileName: join(options.vuex.namespace, pathString),
-        options
-      })
-    }
+    // Add plugin
+    const { dst } = this.addTemplate({
+      src: resolve(__dirname, '../templates/plugin.js'),
+      fileName: join('qAuth.js'),
+      options
+    })
+    this.options.plugins.push(resolve(this.options.buildDir, dst))
 
-    // sync all of the files and folders to revelant places in the nuxt build dir (.nuxt/)
-    for (const pathString of foldersToSync) {
-      const path = resolve(__dirname, pathString)
-      for (const file of readdirSync(path)) {
-        this.addTemplate({
-          src: resolve(path, file),
-          fileName: join(options.vuex.namespace, pathString, file),
-          options
-        })
-      }
-    }
-  })
+     // Transpile and alias auth src
+  const runtime = resolve(__dirname, 'runtime')
+  this.options.alias['~qAuth/runtime'] = runtime
+  this.options.build.transpile.push(__dirname)
 }
 
 export default AuthModule
 
+// Todo
 // REQUIRED if publishing the module as npm package
- module.exports.meta = require('./package.json')
+//module.exports.meta = require('../package.json')
