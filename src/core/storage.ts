@@ -19,7 +19,7 @@ export class Storage {
     public get user(): object | undefined {
         return this.ctx.store.getters[`${this.options.vuex.namespace}/user`]
     }
-    public SetUserAndToken(user: any, token: string):void {
+    public SetState(user: any, token: string):void {
         this.ctx.store.commit(`${this.options.vuex.namespace}/SET`, { user, token })
     }
 

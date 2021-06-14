@@ -1,6 +1,6 @@
 {
   "name": "nuxt-apollo-auth",
-  "version": "0.0.134-dev",
+  "version": "0.0.140-dev",
   "description": "Auth Module for nuxt-apollo",
   "repository": "mAminP/nuxt-apollo-auth",
   "license": "MIT",
@@ -27,7 +27,8 @@
   "scripts": {
     "build": "siroc build && yarn build:types",
     "build:types": "./scripts/types.sh",
-    "release": "npm publish"
+    "release": "npm publish",
+    "unpublish": "npm unpublish nuxt-apollo-auth@0.0.139-dev"
   },
   "dependencies": {
     "consola": "^2.15.3",

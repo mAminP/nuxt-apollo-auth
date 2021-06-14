@@ -80,8 +80,6 @@
 
 ### qAuth
 
-----------
-
 This module globally injects `$qAuth` instance, meaning that you can access it anywhere using `this.$qAuth`. For plugins, asyncData, fetch, nuxtServerInit and Middleware, you can access it from `context.$qAuth`.
 
 #### properties
@@ -107,7 +105,7 @@ this.$store.state.qAuth.user
 This boolean flag indicates that user is authenticated and available at the moment or not.
 
 ```js
-// Access using $auth
+// Access using $qAuth
 this.$qAuth.loggedIn
 
 // Access using vuex
@@ -136,7 +134,7 @@ this.$auth.login(/*{loginMutationVariables}*/)
 - Returns : `Promise`
 
 ```js
-this.$auth.logout()
+this.$qAuth.logout()
   .then(() => {
       this.$toast.success('Logged Out!')
   })

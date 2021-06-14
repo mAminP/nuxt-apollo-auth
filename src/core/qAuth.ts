@@ -28,11 +28,11 @@ export class qAuth {
     }
     /**
         * Returns user if logged in
-        * @returns object
+        * @returns object | undefined
         * @beta
         */
-    get user(): object | undefined {
-        return this.$storage.user
+    get user():any {
+        return this.$storage.user as any
     }
     /**
      * login user
@@ -55,7 +55,7 @@ export class qAuth {
                 return Promise.resolve({ success: false, token, tokenResponse, user, userResponse })
             }
             // configure login in vuex
-            this.$storage.SetUserAndToken(user, token)
+            this.$storage.SetState(user, token)
             return Promise.resolve({ success: true, token, tokenResponse, user, userResponse })
         } catch (error) {
             await this.logout()
@@ -73,7 +73,7 @@ export class qAuth {
                 consola.info('logging out ...')
             }
             await this.ctx.$apolloHelpers.onLogout(client)
-            this.$storage.SetUserAndToken(undefined, undefined)
+            this.$storage.SetState(undefined, undefined)
             if (this.options.debug) {
                 consola.success('logged out.')
             }
@@ -120,7 +120,13 @@ export class qAuth {
     }
 
 
-    private init() {
+    private async init():Promise<void> {
+        const token = this.ctx.$apolloHelpers.getToken()
+        if (token) {
+            const {user}= await this.getUser()
+            this.$storage.SetState(user, token)
+        }
+
     }
 
 }
