@@ -20,6 +20,7 @@ export type UserResult<TQuery = any, TUser = any> = {
     response:FetchResult<TQuery, Record<string, any>, Record<string, any>> | null
 }
 export type LoginResult<TMutete = any, TQuery = any, TUser = any> = {
+    success:boolean,
     token:string| null,
     tokenResponse:FetchResult<TMutete, Record<string, any>, Record<string, any>> | null
     user: TUser| null,

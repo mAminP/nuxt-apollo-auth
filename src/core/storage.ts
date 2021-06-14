@@ -8,44 +8,43 @@ export class Storage {
     private _useVuex: boolean = false
     private readonly ctx: Context
     private readonly options: ModuleOptions
-    constructor(ctx: Context,options: ModuleOptions) {
+    constructor(ctx: Context, options: ModuleOptions) {
         this.ctx = ctx;
         this.options = options;
         this._vuexStoreInit()
-     
     }
-    public get loggedIn():boolean{
+    public get loggedIn(): boolean {
         return this.ctx.store.getters[`${this.options.vuex.namespace}/loggedIn`]
     }
-    public get user():object| undefined{
+    public get user(): object | undefined {
         return this.ctx.store.getters[`${this.options.vuex.namespace}/user`]
     }
-    public SetUserAndToken (user:any, token:string) {
+    public SetUserAndToken(user: any, token: string):void {
         this.ctx.store.commit(`${this.options.vuex.namespace}/SET`, { user, token })
-      }
-  
-      public RemoveUserAndToken () {
+    }
+
+    public RemoveUserAndToken():void {
         this.ctx.store.commit(`${this.options.vuex.namespace}/SET`, { user: undefined, token: undefined })
-      }
-  
-    private _vuexStoreInit() {
+    }
+
+    private _vuexStoreInit():void {
         this._useVuex = !!this.ctx.store
         if (this._useVuex) {
             const storeModule: Module<IqAuthState, any> = {
-                namespaced:true,
+                namespaced: true,
                 state: () => ({
                     token: undefined,
                     user: undefined
-                }),mutations: {
-                    SET (state, payload: IqAuthState) {
-                      state.token = payload.token
-                      state.user = payload.user
+                }), mutations: {
+                    SET(state, payload: IqAuthState) {
+                        state.token = payload.token
+                        state.user = payload.user
                     }
-                  },
-                  getters: {
+                },
+                getters: {
                     loggedIn: (state): boolean => (!!state.token && !!state.user),
-                    user: (state): object| undefined => (state.user)
-                  }
+                    user: (state): object | undefined => (state.user)
+                }
             }
             this.ctx.store.registerModule(this.options.vuex.namespace, storeModule, {
                 preserveState: Boolean(this.ctx.store.state[this.options.vuex.namespace])
