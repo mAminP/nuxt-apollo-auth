@@ -2,7 +2,7 @@ import { ModuleOptions } from "../Options";
 import { Storage } from "./storage";
 import { LoginResult, TokenResult, UserResult } from '../types';
 import { Context } from "@nuxt/types";
-import { Helpers } from '../utils';
+import { getProp, Helpers } from '../utils';
 import consola from 'consola';
 export class qAuth {
     private readonly ctx: Context;
@@ -119,6 +119,21 @@ export class qAuth {
         }
     }
 
+    // based on @nuxtjs/auth hasScope
+    hasScope(scope: string): boolean {
+        const userScopes =
+          this.$storage.user && getProp(this.$storage.user, this.options.scopeKey)
+    
+        if (!userScopes) {
+          return false
+        }
+    
+        if (Array.isArray(userScopes)) {
+          return userScopes.includes(scope)
+        }
+    
+        return Boolean(getProp(userScopes, scope))
+      }
 
     private async init():Promise<void> {
         const token = this.ctx.$apolloHelpers.getToken()

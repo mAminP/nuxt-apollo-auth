@@ -1,8 +1,12 @@
 # Nuxt Apollo Auth
 
-> **⚠⚠ WARNING ⚠⚠**
+> **:warning::exclamation::warning:    WARNING    :warning::exclamation::warning:**
 >
 > **This package is under development**
+
+----------
+
+> 🙏 Thanks to the  [`@nuxtjs/auth`](https://auth.nuxtjs.org/) development team
 
 - [Nuxt Apollo Auth](#nuxt-apollo-auth)
   - [Setup](#setup)
@@ -17,6 +21,9 @@
       - [methods](#methods)
         - [`login(loginMutationVariables)`](#loginloginmutationvariables)
         - [`logout()`](#logout)
+        - [`hasScope(scopeName)`](#hasscopescopename)
+    - [middleware](#middleware)
+  - [TODO](#todo)
 
 ## Setup
 
@@ -86,8 +93,6 @@ This module globally injects `$qAuth` instance, meaning that you can access it a
 
 All properties are reactive. Meaning that you can safely use them in Vue template *v-if* conditions.
 
-----------
-
 ##### `user`
 
 This object contains details about authenticated user such as name. You can access it using either `$qAuth` or Vuex.
@@ -114,8 +119,6 @@ this.$store.getters['qAuth/loggedIn']
 
 #### methods
 
-----------
-
 ##### `login(loginMutationVariables)`
 
 - Returns : `Promise`
@@ -139,3 +142,50 @@ this.$qAuth.logout()
       this.$toast.success('Logged Out!')
   })
 ```
+
+##### `hasScope(scopeName)`
+
+Check if user has a specific scope:
+
+```js
+// Returns is a computed boolean
+this.$qAuth.hasScope('admin')
+```
+
+### middleware
+
+You can enable `qAuth` middleware either globally or per route. When this middleware is enabled on a route and `loggedIn` is `false` user will be redirected to `redirect.login` route. (`/login` by default)
+
+Setting per route:
+
+```js
+export default {
+  middleware: 'qAuth'
+}
+
+```
+
+Globally setting in `nuxt.config.js`:
+
+```js
+// nuxt.config.js
+
+router: {
+  middleware: ['qAuth']
+}
+```
+
+In case of global usage, You can set `qAuth` option to `false` in a specific component and the middleware will ignore that route.
+
+```js
+export default {
+  qAuth: false
+}
+```
+
+## TODO
+
+- ✅ hasScope
+- ✅ middleware
+- 🔳 redirect
+  
