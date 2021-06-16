@@ -1,6 +1,7 @@
 import { NuxtConfig } from "@nuxt/types";
 import gql from 'graphql-tag'
 export default <NuxtConfig>{
+    serverMiddleware:['~/api/auth'],
     head: {
         title: 'demo',
         link: [
@@ -15,7 +16,7 @@ export default <NuxtConfig>{
     apollo: {
         clientConfigs: {
             default: {
-                httpEndpoint: 'any'
+                httpEndpoint: 'http://localhost:4000/'
             }
         }
     },

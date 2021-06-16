@@ -1,6 +1,6 @@
 {
   "name": "nuxt-apollo-auth",
-  "version": "0.0.150-dev",
+  "version": "0.0.151-dev",
   "description": "Auth Module for nuxt-apollo",
   "repository": "mAminP/nuxt-apollo-auth",
   "license": "MIT",
@@ -44,6 +44,8 @@
     "@types/jest": "^26.0.23",
     "@types/node": "latest",
     "apollo-link": "^1.2.14",
+    "apollo-server": "^2.25.1",
+    "graphql": "^15.5.0",
     "graphql-tag": "^2.12.4",
     "jest": "^27.0.4",
     "nuxt": "^2.15.7",
