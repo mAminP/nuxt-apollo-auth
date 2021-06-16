@@ -73,15 +73,16 @@
 
 ## Options
 
-| property              | required | type                          | default     | description                                                    |
-| --------------------- | -------- | ----------------------------- | ----------- | -------------------------------------------------------------- |
-| `enable`              | false    | `boolean`                     | `true`      | Enables or disables the module                                 |
-| `vuex.namespace`      | false    | `string`                      | `'qAuth'`   | name of vuex module that store user object and token           |
-| `local.loginMutation` | **true** | `DocumentNode` or `undefined` | `undefined` | GraphQL mutation to mutate data to server.                     |
-| `local.tokenProperty` | false    | `string`                      | `'token'`   | Key to automatically extract token from loginMutation response |
-| `local.userQuery`     | **true** | `DocumentNode` or `undefined` | `undefined` | GraphQL qurey to get user from server                          |
-| `local.userProperty`  | false    | `string`                      | `'user'`    | Key to automatically extract user from userQuery response      |
-| `debug`               | false    | `boolean`                     | `false`     | Enables or disables debug mode                                 |
+| property              | required | type                          | default     |
+| --------------------- | -------- | ----------------------------- | ----------- |
+| `enable`              | false    | `boolean`                     | `true`      |
+| `vuex.namespace`      | false    | `string`                      | `'qAuth'`   |
+| `local.loginMutation` | **true** | `DocumentNode` or `undefined` | `undefined` |
+| `local.tokenProperty` | false    | `string`                      | `'token'`   |
+| `local.userQuery`     | **true** | `DocumentNode` or `undefined` | `undefined` |
+| `local.userProperty`  | false    | `string`                      | `'user'`    |
+| `debug`               | false    | `boolean`                     | `false`     |
+| `scopeKey`            | false    | `string`                      | `'scope'`     |
 
 ## Usage
 
@@ -123,14 +124,51 @@ this.$store.getters['qAuth/loggedIn']
 
 - Returns : `Promise`
 
+ javascript:
+
 ```js
-this.$auth.login(/*{loginMutationVariables}*/)
-  .then((res) => { //   res = { success , token , tokenResponse , user , userResponse }
-    if(res.success){
+
+this.$qAuth.login({...loginMutationVariables})
+  .then((result) => { 
+    if(result.success){
       this.$toast.success('Logged In!')
     }
   })
+
 ```
+
+ typescript:
+
+```ts
+
+this.$qAuth.login<TMutation,TVariables,TQuery,TUser>(loginMutationVariables)
+  .then((result) => { 
+    if(result.success){
+      this.$toast.success('Logged In!')
+    }
+  })
+
+```
+
+login result containing `{success, token, mutationResponse, user, queryResponse}` :
+
+- `success`:
+  - type : `boolean`
+  - returns `true` if login successful.
+- `token`:
+  - type: `string` | `null`
+  - returns `token` if `loginMutation` request successful.
+- `mutationResponse`:
+  - type: `FetchResult<TMutation, Record<string, any>, Record<string, any>>` | `null`
+  - returns `loginMutation` response if request successful.
+- `user`:
+  - type: `object` | `null`
+  - returns `user` object if `userQuery` request successful.
+- `queryResponse`:
+  - type: `FetchResult<TQuery, Record<string, any>, Record<string, any>>` | `null`
+  - returns `userQuery` response if request successful.
+
+ ----------
 
 ##### `logout()`
 
@@ -185,7 +223,5 @@ export default {
 
 ## TODO
 
-- ✅ hasScope
-- ✅ middleware
-- 🔳 redirect
+- [ ] redirect
   

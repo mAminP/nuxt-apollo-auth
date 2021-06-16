@@ -10,20 +10,20 @@ export type IqAuthState = {
   }
 
 
-export type TokenResult<TMutete = any> = {
+export type TokenResult<TMutation = any> = {
     token: string | null
-    response:FetchResult<TMutete, Record<string, any>, Record<string, any>> | null
+    response:FetchResult<TMutation, Record<string, any>, Record<string, any>> | null
 }
 
 export type UserResult<TQuery = any, TUser = any> = {
     user: TUser | null
     response:FetchResult<TQuery, Record<string, any>, Record<string, any>> | null
 }
-export type LoginResult<TMutete = any, TQuery = any, TUser = any> = {
+export type LoginResult<TMutation = any, TQuery = any, TUser = any> = {
     success:boolean,
     token:string| null,
-    tokenResponse:FetchResult<TMutete, Record<string, any>, Record<string, any>> | null
+    mutationResponse:FetchResult<TMutation, Record<string, any>, Record<string, any>> | null
     user: TUser| null,
-    userResponse:FetchResult<TQuery, Record<string, any>, Record<string, any>> | null
+    queryResponse:FetchResult<TQuery, Record<string, any>, Record<string, any>> | null
 
 }

@@ -16,8 +16,8 @@ export interface ModuleOptions {
   redirect: {
     login: string | false
     logout: string | false
-    callback: string | false
-    home: string | false
+    // callback: string | false
+    // home: string | false
   }
 
 }
@@ -25,9 +25,9 @@ export const moduleDefaults: ModuleOptions = {
   scopeKey: 'scope',
   redirect: {
     login: '/login',
-    logout: '/',
-    home: '/',
-    callback: '/login'
+    logout: '/'
+    // home: '/',
+    // callback: '/login'
   },
   enable: true,
   vuex: {
