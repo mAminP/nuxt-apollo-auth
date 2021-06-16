@@ -3,6 +3,7 @@ import { Storage } from "./storage";
 import { LoginResult, TokenResult, UserResult } from '../types';
 import { Context } from "@nuxt/types";
 import { Debugger, Helpers } from '../utils';
+import consola from 'consola'
 export class qAuth {
     private readonly ctx: Context;
     private readonly options: ModuleOptions;
@@ -88,17 +89,17 @@ export class qAuth {
     public async getToken<TMutation = any, TVariables = any>(data: TVariables): Promise<TokenResult<TMutation>> {
         try {
             const apollo = this.ctx.app.apolloProvider.defaultClient
-             
+
             this._debugger.info('Trying to fetch Token ...')
-            
+
             const response = await apollo.mutate<TMutation, TVariables>({
                 mutation: this.options.local.loginMutation,
                 variables: { ...data }
             })
 
-                this._debugger.success('Fetching Token was successful | Resposne => ', response)
-         
-                const token = this._helpers.tokenExtraction(response)
+            this._debugger.success('Fetching Token was successful | Resposne => ', response)
+
+            const token = this._helpers.tokenExtraction(response)
             return Promise.resolve({ token, response })
         } catch (error) {
             return Promise.reject(error)
@@ -109,15 +110,15 @@ export class qAuth {
         const apollo = this.ctx.app.apolloProvider.defaultClient
 
         try {
-             this._debugger.info('Trying to fetch User ...') 
+            this._debugger.info('Trying to fetch User ...')
 
             const response = await apollo.query<TQuery>({
                 query: this.options.local.userQuery
             })
 
-           this._debugger.success('Fetching User was successful | Resposne => ', response) 
-           
-           const user = this._helpers.userExtraction(response.data as unknown as object)
+            this._debugger.success('Fetching User was successful | Resposne => ', response)
+
+            const user = this._helpers.userExtraction(response.data as unknown as object)
             return Promise.resolve({ user: user as TUser | null, response })
         } catch (error) {
             return Promise.reject(error)
@@ -139,12 +140,22 @@ export class qAuth {
         return Boolean(this._helpers.getProp(userScopes, scope))
     }
 
+
+
+
     private async init(): Promise<void> {
+        
+        if (!this.ctx.$apolloHelpers) {
+            consola.error('[QAUTH] add the @nuxtjs/apollo module to nuxt.config file')
+            return
+        }
+
         const token = this.ctx.$apolloHelpers.getToken()
         if (token) {
             const { user } = await this.getUser()
             this.$storage.SetState(user, token)
         }
+
 
     }
 

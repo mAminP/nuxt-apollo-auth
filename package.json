@@ -25,6 +25,7 @@
     "index.d.ts"
   ],
   "scripts": {
+    "dev": "nuxt demo",
     "test": "jest --coverage",
     "build": "siroc build && yarn build:types",
     "build:types": "./scripts/types.sh",
@@ -37,13 +38,16 @@
   },
   "devDependencies": {
     "@nuxt/types": "^2.15.7",
+    "@nuxt/typescript-build": "^2.1.0",
     "@nuxtjs/apollo": "^4.0.1-rc.5",
+    "@nuxtjs/vuetify": "^1.12.1",
     "@types/jest": "^26.0.23",
     "@types/node": "latest",
     "apollo-link": "^1.2.14",
     "graphql-tag": "^2.12.4",
     "jest": "^27.0.4",
     "nuxt": "^2.15.7",
+    "nuxt-property-decorator": "^2.9.1",
     "ts-jest": "^27.0.3",
     "typescript": "^4.3.2",
     "vue": "latest"

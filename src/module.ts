@@ -6,6 +6,7 @@ import type { Module } from '@nuxt/types'
 import defu from 'defu'
 import {Helpers} from "."
 import {ModuleOptions , moduleDefaults} from './runtime'
+import { Debugger } from './utils'
 
 const AuthModule:Module<ModuleOptions> = function (moduleOptions) {
   const options: ModuleOptions = defu(moduleOptions, this.options.qAuth!, moduleDefaults)
@@ -14,8 +15,8 @@ const AuthModule:Module<ModuleOptions> = function (moduleOptions) {
     return
   }
 
-  const helper = new Helpers(options)
-  helper._checkModuleOptionsForInitializeModule()
+  const helper = new Helpers(options,new Debugger(options))
+  helper.checkModuleOptionsForInitializeModule()
 
 
     // Add plugin
