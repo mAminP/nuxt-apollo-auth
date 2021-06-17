@@ -24,7 +24,7 @@
                   >
                     <v-card>
                       <v-list>
-                        <v-list-item v-for="(value, name) in user" :key="name" >
+                        <v-list-item v-for="(value, name,index) in user" :key="index" >
                           <span class="grey--text mx-1" v-text="name" /> :
                           <span  v-text="value"  class="mx-1"/> 
                           </v-list-item
@@ -45,27 +45,20 @@
 <script lang="ts">
 import { Vue, Component, Prop } from "nuxt-property-decorator";
 import { Context } from "@nuxt/types";
-import gql from "graphql-tag";
+import {UserQ} from '../GraphQL/userGQL'
+import {User, UsersQuery} from '../GraphQL/types/types'
 @Component({})
 export default class Index extends Vue {
-  users: any;
+  users: User[] = [] //  ({__typename: "User";} & Pick<User, "id" | "userName" | "email" | "password">)[] = [];
   async asyncData(ctx: Context) {
     const apollo = ctx.app.apolloProvider.defaultClient;
-    const users = await apollo.query({
-      query: gql`
-        query {
-          users {
-            id
-            userName
-            email
-            password
-            __typename
-          }
-        }
-      `,
+    const {
+      data
+    } = await apollo.query<UsersQuery>({
+      query: UserQ.users
     });
     return {
-      users: users.data.users,
+      users: data.users,
     };
   }
 }

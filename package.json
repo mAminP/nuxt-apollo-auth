@@ -1,6 +1,6 @@
 {
   "name": "nuxt-apollo-auth",
-  "version": "0.0.151-dev",
+  "version": "0.0.160-dev",
   "description": "Auth Module for nuxt-apollo",
   "repository": "mAminP/nuxt-apollo-auth",
   "license": "MIT",
@@ -26,6 +26,8 @@
   ],
   "scripts": {
     "dev": "nuxt demo",
+    "generate-types": "yarn generate-types:sh",
+    "generate-types:sh": "./scripts/generateGraphQlTypes.sh",
     "test": "jest --coverage",
     "build": "siroc build && yarn build:types",
     "build:types": "./scripts/types.sh",
@@ -37,6 +39,12 @@
     "defu": "^5.0.0"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "^1.21.4",
+    "@graphql-codegen/typescript": "^1.22.0",
+    "@graphql-codegen/typescript-graphql-files-modules": "^1.18.1",
+    "@graphql-codegen/typescript-graphql-request": "^3.2.0",
+    "@graphql-codegen/typescript-operations": "^1.17.16",
+    "@graphql-codegen/typescript-vue-apollo": "^2.3.4",
     "@nuxt/types": "^2.15.7",
     "@nuxt/typescript-build": "^2.1.0",
     "@nuxtjs/apollo": "^4.0.1-rc.5",
