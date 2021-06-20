@@ -6,7 +6,7 @@ import { Debugger, Helpers } from '../utils';
 import consola from 'consola'
 export class qAuth {
     private readonly ctx: Context;
-    private readonly options: ModuleOptions;
+    public  options: ModuleOptions;
     private readonly _helpers: Helpers
     private readonly _debugger: Debugger
     public $storage: Storage
@@ -19,7 +19,7 @@ export class qAuth {
         this._debugger = new Debugger(options)
         this._helpers = new Helpers(options, this._debugger);
     }
-
+    
     /**
      * Returns whether the user is logged in or not?!
      * @returns boolean

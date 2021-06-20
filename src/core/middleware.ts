@@ -9,8 +9,9 @@ export const qAuthMiddleware: Middleware = function (ctx: Context) {
         return
     }
 
+    const { login } = ctx.$qAuth.options.redirect
     if (!ctx.$qAuth.loggedIn) {
-        return ctx.redirect('/auth/login')
+        return ctx.redirect(login as string)
     }
 
 }

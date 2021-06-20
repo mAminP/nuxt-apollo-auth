@@ -28,6 +28,7 @@
       "@types/node",
       "@nuxtjs/apollo",
       "@nuxtjs/vuetify",
+      "./GraphQL/types/graphql",
       "../src/shim"
     ]
   }

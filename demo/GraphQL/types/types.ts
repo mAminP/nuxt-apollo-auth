@@ -9,28 +9,60 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
-  /** The `Upload` scalar type represents a file upload. */
-  Upload: any;
+  _Any: any;
 };
 
 
-export enum CacheControlScope {
-  Public = 'PUBLIC',
-  Private = 'PRIVATE'
-}
+
+
+
+
+export type Account = {
+  __typename?: 'Account';
+  id: Scalars['ID'];
+  name?: Maybe<Scalars['String']>;
+  email?: Maybe<Scalars['String']>;
+  password?: Maybe<Scalars['String']>;
+  roles: Array<Scalars['String']>;
+};
+
+export type Mutation = {
+  __typename?: 'Mutation';
+  login?: Maybe<Scalars['String']>;
+};
+
+
+export type MutationLoginArgs = {
+  email: Scalars['String'];
+  password: Scalars['String'];
+};
 
 export type Query = {
   __typename?: 'Query';
-  users?: Maybe<Array<Maybe<User>>>;
+  _entities: Array<Maybe<_Entity>>;
+  _service: _Service;
+  account?: Maybe<Account>;
+  accounts?: Maybe<Array<Maybe<Account>>>;
+  viewer: Account;
 };
 
 
-export type User = {
-  __typename?: 'User';
-  id?: Maybe<Scalars['Int']>;
-  userName?: Maybe<Scalars['String']>;
-  email?: Maybe<Scalars['String']>;
-  password?: Maybe<Scalars['String']>;
+export type Query_EntitiesArgs = {
+  representations: Array<Scalars['_Any']>;
+};
+
+
+export type QueryAccountArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type _Entity = Account;
+
+export type _Service = {
+  __typename?: '_Service';
+  /** The sdl representing the federated service capabilities. Includes federation directives, removes federation types, and includes rest of full schema after schema directives have been applied */
+  sdl?: Maybe<Scalars['String']>;
 };
 
 export type UsersQueryVariables = Exact<{ [key: string]: never; }>;
@@ -38,8 +70,30 @@ export type UsersQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type UsersQuery = (
   { __typename?: 'Query' }
-  & { users?: Maybe<Array<Maybe<(
-    { __typename: 'User' }
-    & Pick<User, 'id' | 'userName' | 'email' | 'password'>
+  & { accounts?: Maybe<Array<Maybe<(
+    { __typename?: 'Account' }
+    & Pick<Account, 'id' | 'name' | 'email' | 'password'>
   )>>> }
+);
+
+export type MeQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type MeQuery = (
+  { __typename?: 'Query' }
+  & { viewer: (
+    { __typename?: 'Account' }
+    & Pick<Account, 'id' | 'name' | 'roles'>
+  ) }
+);
+
+export type LoginMutationVariables = Exact<{
+  email: Scalars['String'];
+  password: Scalars['String'];
+}>;
+
+
+export type LoginMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'login'>
 );

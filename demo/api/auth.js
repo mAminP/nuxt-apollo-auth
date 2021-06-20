@@ -1,35 +1,50 @@
-const { ApolloServer, gql } = require('apollo-server')
-const users = require('./db/users.json');
+const { ApolloGateway,RemoteGraphQLDataSource  } = require("@apollo/gateway");
+const { ApolloServer } = require("apollo-server-express");
+const express = require("express");
+const expressJwt = require("express-jwt");
+const port = 4000;
+const app = express();
 
+app.use(
+    expressJwt({
+      secret: "f1BtnWgD3VKY",
+      algorithms: ["HS256"],
+      credentialsRequired: false
+    })
+  );
 
-const typeDefs = gql`
-type User{
-    id: Int
-    userName: String
-    email: String
-    password: String
-}
-type Query {
-    users: [User]
+const gateway = new ApolloGateway({
+  serviceList: [{ name: "accounts", url: "http://localhost:4001" }],
+  buildService({ name, url }) {
+    return new RemoteGraphQLDataSource({
+      url,
+      willSendRequest({ request, context }) {
+        console.log('resuset authjs gateway buildService :>> ', resuset);
+        request.http.headers.set(
+          "user",
+          context.user ? JSON.stringify(context.user) : null
+        );
+      }
+    });
   }
-
-`
-const resolvers = {
-    Query: {
-        users: () => users
-    },
-};
+});
 
 const server = new ApolloServer({
-    typeDefs,
-    resolvers
+  gateway,
+  subscriptions: false,
+  context: ({ req }) => {
+    console.log('req authjs server context :>> ', req);
+
+    const user = req.user || null;
+    return { user };
+  }
 });
 
+server.applyMiddleware({ app });
 
-server.listen().then(({ url }) => {
-    console.log(`🚀 Apollo Server ready at ${url}`);
-});
-
+app.listen({ port }, () =>
+  console.log(`Server ready at http://localhost:${port}${server.graphqlPath}`)
+);
 module.exports = {
     handler: server
 }
