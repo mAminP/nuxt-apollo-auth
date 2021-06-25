@@ -1,6 +1,6 @@
 import { ModuleOptions } from "../Options";
 import { Storage } from "./storage";
-import { LoginResult, TokenResult, UserResult } from '../types';
+import { LocalStrategy, LoginResult, TokenResult, UserResult } from '../types';
 import { Context } from "@nuxt/types";
 import { Debugger, Helpers } from '../utils';
 import consola from 'consola'
@@ -91,9 +91,18 @@ export class qAuth {
             const apollo = this.ctx.app.apolloProvider.defaultClient
 
             this._debugger.info('Trying to fetch Token ...')
+            
+            const local = this.options.strategies.local 
+            if (local  === false) {
+                return
+            }
+            const loginOptions = local.endpoints.login
+            if (loginOptions === false) {
+                return
+            }
 
             const response = await apollo.mutate<TMutation, TVariables>({
-                mutation: this.options.local.loginMutation,
+                mutation: loginOptions.mutation,
                 variables: { ...data }
             })
 
@@ -111,9 +120,16 @@ export class qAuth {
 
         try {
             this._debugger.info('Trying to fetch User ...')
-
+            const local = this.options.strategies.local 
+            if (local  === false) {
+                return
+            }
+            const UserOptions = local.endpoints.user
+            if (UserOptions === false) {
+                return
+            }
             const response = await apollo.query<TQuery>({
-                query: this.options.local.userQuery
+                query: UserOptions.query
             })
 
             this._debugger.success('Fetching User was successful | Resposne => ', response)

@@ -35,6 +35,9 @@
 import {
   LoginMutationVariables,
   LoginMutation,
+  LoginInput,
+  MeQuery,
+  Account,
 } from "demo/GraphQL/types/types";
 import { Vue, Component, Ref } from "vue-property-decorator";
 
@@ -43,9 +46,9 @@ type VForm = Vue & {
   resetValidation: () => boolean;
   reset: () => void;
 };
-class LoginRequset implements LoginMutationVariables {
-  email: string;
-  password: string;
+class LoginRequset implements LoginInput {
+  email:string
+  password: string
 }
 
 @Component({
@@ -64,20 +67,22 @@ class LoginRequset implements LoginMutationVariables {
 export default class LoginComponent extends Vue {
   @Ref("form") readonly form!: VForm;
   valid: boolean = true;
-  requset = new LoginRequset();
+  public requset = new LoginRequset();
   rules: any;
   async submitForm() {
     if (this.form.validate()) {
       try {
-           const res = await this.$qAuth.login<
-        LoginMutation,
-        LoginMutationVariables
-      >(this.requset);
-      console.log('res :>> ', res);
+        const res = await this.$qAuth.login<
+          LoginMutation,
+          LoginMutationVariables,
+          MeQuery,
+          Account
+        >({ data: this.requset });
       } catch (error) {
-        alert(error)
+        const {graphQLErrors} = error
+        console.log('graphQLErrors :>> ', graphQLErrors[0].message);
+        console.dir(error)
       }
-   
     }
   }
   reset() {

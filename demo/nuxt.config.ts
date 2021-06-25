@@ -1,7 +1,7 @@
 import { NuxtConfig } from "@nuxt/types";
 import gql from 'graphql-tag'
 export default <NuxtConfig>{
-    serverMiddleware: ['~/api/accounts', '~/api/auth'],
+    serverMiddleware: ['~/api/auth'],
     head: {
         title: 'demo',
         link: [
@@ -16,7 +16,7 @@ export default <NuxtConfig>{
     apollo: {
         clientConfigs: {
             default: {
-                httpEndpoint: 'http://localhost:4000/graphql/'
+                httpEndpoint: 'http://localhost:4000/'
             }
         }
     },
@@ -24,18 +24,21 @@ export default <NuxtConfig>{
         scopeKey: 'roles',
         local: {
             loginMutation: gql`
-            mutation login($email:String!,$password:String!) {
-              login(email:$email,password:$password)
+            mutation login($data:LoginInput!) {
+              login(data: $data){
+                  token
+              }
             }
              ` ,
-            tokenProperty: 'login',
-            userProperty: 'viewer',
+
             userQuery: gql`
            query me {
-             viewer{
-                id
-                name
-                roles
+             me{
+                user{
+          id
+          name
+          roles
+        }
              }
            }
             `

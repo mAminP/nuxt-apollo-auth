@@ -47,17 +47,24 @@ import { Vue, Component, Prop } from "nuxt-property-decorator";
 import { Context } from "@nuxt/types";
 import { UserQ } from "../GraphQL/userGQL";
 import { Account, UsersQuery } from "../GraphQL/types/types";
-@Component({})
+@Component({
+  
+})
 export default class Index extends Vue {
   users: Account[] = [];
   async asyncData(ctx: Context) {
-    const apollo = ctx.app.apolloProvider.defaultClient;
+    try {
+      const apollo = ctx.app.apolloProvider.defaultClient;
     const { data } = await apollo.query<UsersQuery>({
       query: UserQ.users,
     });
     return {
       users: data.accounts,
     };
+    } catch (error) {
+      console.log('error :>> ', error);
+    }
+    
   }
 }
 </script>

@@ -224,6 +224,6 @@ export default {
 ## TODO
 
 - [ ] redirect
-- [ ] demo
+- [x] demo
 - [ ] example
   

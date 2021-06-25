@@ -1,6 +1,8 @@
 import consola from 'consola'
 import { ModuleOptions } from './../Options'
 import { Debugger } from './debugger'
+import { LocalStrategy } from './../types/strategy';
+import type { DocumentNode } from 'apollo-link';
 export class Helpers {
   private readonly _options: ModuleOptions
   private readonly _debugger: Debugger
@@ -13,13 +15,13 @@ export class Helpers {
     try {
       this._debugger.info('Trying to automatically extract user')
       const jsonStr: string = JSON.stringify(object)
-      const includesUser = jsonStr.includes(this._options.local.userProperty)
+      const includesUser = jsonStr.includes((this._options.strategies.local as LocalStrategy).user.property)
       if (includesUser) {
         this._debugger.info('The user inside the object was identified. Extracting ...')
-        const indexOfUser = jsonStr.indexOf(this._options.local.userProperty)
+        const indexOfUser = jsonStr.indexOf((this._options.strategies.local as LocalStrategy).user.property)
         let continues = 0
         let finalUser = ''
-        for (let i = indexOfUser + this._options.local.userProperty.length + 2; i < jsonStr.length; i++) {
+        for (let i = indexOfUser + (this._options.strategies.local as LocalStrategy).user.property.length + 2; i < jsonStr.length; i++) {
           const element = jsonStr[i]
           if (element.includes('{')) {
             continues++
@@ -41,7 +43,7 @@ export class Helpers {
       }
     } catch (error) {
       consola.error('User not detected!\n',
-        `Make sure The "qAuth.local.userProperty" in The nuxt.config points to the correct User key.\n it points to "${this._options.local.userProperty}" now`)
+        `Make sure The "qAuth.strategies.local.user.property" in The nuxt.config points to the correct User key.\n it points to "${(this._options.strategies.local as LocalStrategy).user.property}" now`)
       return null
     }
   }
@@ -50,12 +52,12 @@ export class Helpers {
     try {
       this._debugger.info('Trying to automatically extract token')
       const jsonStr: string = JSON.stringify(object)
-      const includesToken = jsonStr.includes(this._options.local.tokenProperty)
+      const includesToken = jsonStr.includes((this._options.strategies.local as LocalStrategy).token.property)
       if (includesToken) {
 
         this._debugger.info('The token inside the object was identified. Extracting ...')
         const splitedArr = jsonStr.split('"')
-        const indexOfToken = splitedArr.indexOf(this._options.local.tokenProperty)
+        const indexOfToken = splitedArr.indexOf((this._options.strategies.local as LocalStrategy).token.property)
         const token = splitedArr[indexOfToken + 2]
         this._debugger.success('Automatic token extraction was successful| ', 'token =>', token)
         return token
@@ -65,7 +67,7 @@ export class Helpers {
       }
     } catch (error) {
       consola.error('Token not detected!\n',
-        `Make sure The "qAuth.local.tokenProperty" in The nuxt.config points to the correct Token key.\n it points to "${this._options.local.tokenProperty}" now`)
+        `Make sure The "qAuth.strategies.local.token.property" in The nuxt.config points to the correct Token key.\n it points to "${(this._options.strategies.local as LocalStrategy).token.property}" now`)
       return null
     }
   }
@@ -78,11 +80,20 @@ export class Helpers {
 
     this._debugger.info('[QAUTH] debug is Enable')
 
-    if (this._options.local.loginMutation === undefined) {
-      throw new Error('[QAUTH] loginMutation is not defined. | path => qAuth.local.loginMutation')
+    if (!this._options.strategies.local) {
+      throw new Error('[QAUTH] strategies is not defined. | path => qAuth.strategies.local')
     }
-    if (this._options.local.userQuery === undefined) {
-      throw new Error('[QAUTH] userQuery is not defined. | path => qAuth.local.userQuery')
+    if (!this._options.strategies.local.endpoints.login) {
+      throw new Error('[QAUTH] login endpoints is not defined. | path => qAuth.strategies.local.endpoints.login')
+    }
+    if (this._options.strategies.local.endpoints.login.mutation.kind !== 'Document') {
+      throw new Error('[QAUTH] login mutation is not defined. | path => qAuth.strategies.local.endpoints.login.mutation')
+    }
+    if (!this._options.strategies.local.endpoints.user) {
+      throw new Error('[QAUTH] user endpoints is not defined. | path => qAuth.strategies.local.endpoints.user')
+    }
+    if (this._options.strategies.local.endpoints.user.query.kind !== 'Document') {
+      throw new Error('[QAUTH] user query is not defined. | path => qAuth.strategies.local.endpoints.user.query')
     }
   }
 

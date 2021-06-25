@@ -11,20 +11,24 @@ export abstract class UserQ {
       }
     }
     `
-    public static me = gql`
+  public static me = gql`
     query me {
-      viewer{
-        id
-        name
-        roles
+      me{
+        user{
+          id
+          name
+          roles
+        }
       }
     }
      `
 }
 export abstract class UserM {
   public static login = gql`
-   mutation login($email:String!,$password:String!) {
-     login(email:$email,password:$password)
+   mutation login($data:LoginInput!) {
+     login(data:$data){
+       token
+     }
    }
     `
 }

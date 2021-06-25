@@ -1,6 +1,6 @@
 {
   "name": "nuxt-apollo-auth",
-  "version": "0.0.160-dev",
+  "version": "0.0.170-dev",
   "description": "Auth Module for nuxt-apollo",
   "repository": "mAminP/nuxt-apollo-auth",
   "license": "MIT",
@@ -26,16 +26,14 @@
   ],
   "scripts": {
     "dev": "nuxt demo",
-    "server": "concurrently -k npm:server:*",
-    "server:accounts": "nodemon demo/api/accounts/index.js",
-    "server:gateway": "wait-on tcp:4001 && nodemon demo/api/auth.js",
+    "server": "nodemon demo/api/auth.js",
     "generate-types": "yarn generate-types:sh",
     "generate-types:sh": "./scripts/generateGraphQlTypes.sh",
     "test": "jest --coverage",
     "build": "siroc build && yarn build:types",
     "build:types": "./scripts/types.sh",
     "release": "npm publish",
-    "unpublish": "npm unpublish nuxt-apollo-auth@0.0.150-dev"
+    "unpublish": "npm unpublish nuxt-apollo-auth@0.0.151-dev"
   },
   "dependencies": {
     "consola": "^2.15.3",
@@ -43,8 +41,6 @@
     "jsonwebtoken": "^8.5.1"
   },
   "devDependencies": {
-    "@apollo/federation": "^0.25.1",
-    "@apollo/gateway": "^0.29.1",
     "@graphql-codegen/cli": "^1.21.5",
     "@graphql-codegen/typescript": "^1.22.0",
     "@graphql-codegen/typescript-graphql-files-modules": "^1.18.1",
@@ -59,13 +55,7 @@
     "@types/node": "latest",
     "apollo-link": "^1.2.14",
     "apollo-server": "^2.25.1",
-    "apollo-server-express": "^2.25.1",
-    "concurrently": "^6.2.0",
-    "express": "^4.17.1",
-    "express-jwt": "^6.0.0",
     "graphql": "^15.5.0",
-    "graphql-middleware": "^6.0.10",
-    "graphql-shield": "^7.5.0",
     "graphql-tag": "^2.12.4",
     "jest": "^27.0.4",
     "nodemon": "^2.0.7",
@@ -74,7 +64,7 @@
     "ts-jest": "^27.0.3",
     "typescript": "^4.3.2",
     "vue": "latest",
-    "wait-on": "^5.3.0"
+    "vue-apollo": "^3.0.7"
   },
   "peerDependencies": {
     "vue": "*"
