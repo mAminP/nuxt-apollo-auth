@@ -1,0 +1,10 @@
+    overwrite: true
+    # watch: true
+    schema: "http://localhost:4000"
+    documents: "demo/GraphQL/**/*.{graphql,js,ts,jsx,tsx,gql}"
+    generates:
+      demo/GraphQL/types/graphql.d.ts:
+        - typescript-graphql-files-modules
+      demo/GraphQL/types/types.ts:
+        - typescript
+        - typescript-operations

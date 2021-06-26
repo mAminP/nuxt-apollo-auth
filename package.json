@@ -1,6 +1,6 @@
 {
   "name": "nuxt-apollo-auth",
-  "version": "0.0.150-dev",
+  "version": "0.0.172-dev",
   "description": "Auth Module for nuxt-apollo",
   "repository": "mAminP/nuxt-apollo-auth",
   "license": "MIT",
@@ -25,28 +25,45 @@
     "index.d.ts"
   ],
   "scripts": {
+    "dev": "nuxt demo",
+    "server": "nodemon demo/api/auth.js",
+    "generate-types": "yarn generate-types:sh",
+    "generate-types:sh": "./scripts/generateGraphQlTypes.sh",
     "test": "jest --coverage",
     "build": "siroc build && yarn build:types",
     "build:types": "./scripts/types.sh",
     "release": "npm publish",
-    "unpublish": "npm unpublish nuxt-apollo-auth@0.0.139-dev"
+    "unpublish": "npm unpublish nuxt-apollo-auth@0.0.151-dev"
   },
   "dependencies": {
     "consola": "^2.15.3",
-    "defu": "^5.0.0"
+    "defu": "^5.0.0",
+    "jsonwebtoken": "^8.5.1"
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "^1.21.5",
+    "@graphql-codegen/typescript": "^1.22.0",
+    "@graphql-codegen/typescript-graphql-files-modules": "^1.18.1",
+    "@graphql-codegen/typescript-graphql-request": "^3.2.0",
+    "@graphql-codegen/typescript-operations": "^1.17.16",
+    "@graphql-codegen/typescript-vue-apollo": "^2.3.4",
     "@nuxt/types": "^2.15.7",
+    "@nuxt/typescript-build": "^2.1.0",
     "@nuxtjs/apollo": "^4.0.1-rc.5",
+    "@nuxtjs/vuetify": "^1.12.1",
     "@types/jest": "^26.0.23",
     "@types/node": "latest",
     "apollo-link": "^1.2.14",
+    "apollo-server": "^2.25.1",
+    "graphql": "^15.5.0",
     "graphql-tag": "^2.12.4",
     "jest": "^27.0.4",
     "nuxt": "^2.15.7",
+    "nuxt-property-decorator": "^2.9.1",
     "ts-jest": "^27.0.3",
     "typescript": "^4.3.2",
-    "vue": "latest"
+    "vue": "latest",
+    "vue-apollo": "^3.0.7"
   },
   "peerDependencies": {
     "vue": "*"

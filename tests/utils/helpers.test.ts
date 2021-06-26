@@ -111,23 +111,126 @@ describe("Helpers class", () => {
 
     describe("checkModuleOptionsForInitializeModule", () => {
 
-        it("should throw Error if loginMutation === undefined ", () => {
+        it("should throw Error if login === false ", () => {
+            options.strategies.local = false
             expect(() => helper.checkModuleOptionsForInitializeModule()).toThrowError();
         })
-        it("should throw Error if  userQuery === undefined", () => {
+        it("should throw Error if  login endpoints === false", () => {
+            options.strategies.local = {
+                enabled: true,
+                token: {
+                    property: 'token'
+                },
+                user: {
+                    property: 'user'
+                },
+                endpoints: {
+                    login: false,
+                    user: false,
+                    logout: false,
+                }
+            }
             expect(() => helper.checkModuleOptionsForInitializeModule()).toThrowError();
         })
-        it("should throw Error if  userQuery === undefined", () => {
-            options.local.loginMutation = gql`mutation{me}`
-            options.local.userQuery = undefined
+        it("should throw Error if  login mutation !== typeof DocumentNode", () => {
+            options.strategies.local = {
+                enabled: true,
+                endpoints: {
+                    login: false,
+                    user: {
+                        query: gql`query{me}`
+                    },
+                    logout: false
+                },
+                user: {
+                    property: 'user'
+                },
+                token: {
+                    property: ' token'
+                }
+            }
             expect(() => helper.checkModuleOptionsForInitializeModule()).toThrowError();
         })
-        it("should not throw Error if loginMutation === DocumentNode and  userQuery === typeof DocumentNode", () => {
-            options.local.loginMutation = gql`mutation{me}`
-            options.local.userQuery = gql`mutation{me}`
+        it("should throw Error user endpoints === false", () => {
+            options.strategies.local = {
+                enabled: true,
+                endpoints: {
+                    login: {
+                        mutation: gql`mutation{me}`
+                    },
+                    user: false,
+                    logout: false
+                },
+                user: {
+                    property: 'user'
+                },
+                token: {
+                    property: 'token'
+                }
+            }
+            expect(() => helper.checkModuleOptionsForInitializeModule()).toThrowError();
+        })
+        it("should throw Error if  user query !== typeof DocumentNode", () => {
+            options.strategies.local = {
+                enabled: true,
+                endpoints: {
+                    login: {
+                        mutation: gql`mutation{me}`
+                    },
+                    user: false,
+                    logout: false
+                },
+                user: {
+                    property: 'user'
+                },
+                token: {
+                    property: ' token'
+                }
+            }
+            expect(() => helper.checkModuleOptionsForInitializeModule()).toThrowError();
+        })
+        it("should not throw Error if  login mutation == typeof DocumentNode", () => {
+            options.strategies.local = {
+                enabled: true,
+                endpoints: {
+                    login: {
+                        mutation: gql`mutation{me}`
+                    },
+                    user: {
+                        query:gql`query{me}`
+                    },
+                    logout: false
+                },
+                user: {
+                    property: 'user'
+                },
+                token: {
+                    property: ' token'
+                }
+            }
             expect(() => helper.checkModuleOptionsForInitializeModule()).not.toThrowError();
         })
-        
+        it("should not throw Error if  user query == typeof DocumentNode", () => {
+            options.strategies.local = {
+                enabled: true,
+                endpoints: {
+                    login: {
+                        mutation: gql`mutation{me}`
+                    },
+                    user: {
+                        query:gql`query{me}`
+                    },
+                    logout: false
+                },
+                user: {
+                    property: 'user'
+                },
+                token: {
+                    property: ' token'
+                }
+            }
+            expect(() => helper.checkModuleOptionsForInitializeModule()).not.toThrowError();
+        })
         it("should not throw Error if evrything is ok", () => {
             expect(() => helper.checkModuleOptionsForInitializeModule()).not.toThrowError();
         })

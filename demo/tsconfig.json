@@ -1,0 +1,36 @@
+{
+  "compilerOptions": {
+    "target": "ES2018",
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "lib": [
+      "ESNext",
+      "ESNext.AsyncIterable",
+      "DOM"
+    ],
+    "esModuleInterop": true,
+    "allowJs": true,
+    "resolveJsonModule": true,
+    "experimentalDecorators":true,
+    "sourceMap": true,
+    "strict": false,
+    "noEmit": true,
+    "baseUrl": ".",
+    "paths": {
+      "~/*": [
+        "./*"
+      ],
+      "@/*": [
+        "./*"
+      ]
+    },
+    "types": [
+      "@types/node",
+      "@nuxtjs/apollo",
+      "@nuxtjs/vuetify",
+      "./GraphQL/types/graphql",
+      "vue-apollo/types",
+      "../src/shim"
+    ]
+  }
+}

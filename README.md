@@ -23,6 +23,7 @@
         - [`logout()`](#logout)
         - [`hasScope(scopeName)`](#hasscopescopename)
     - [middleware](#middleware)
+  - [Examples](#examples)
   - [TODO](#todo)
 
 ## Setup
@@ -53,6 +54,8 @@
 }
  ```
 
+ > read `@nuxtjs/apollo` configuration at [this repo]([https://link](https://github.com/nuxt-community/apollo-module))
+
 ### Using with TypeScript
 
 ----------
@@ -73,16 +76,128 @@
 
 ## Options
 
-| property              | required | type                          | default     |
-| --------------------- | -------- | ----------------------------- | ----------- |
-| `enable`              | false    | `boolean`                     | `true`      |
-| `vuex.namespace`      | false    | `string`                      | `'qAuth'`   |
-| `local.loginMutation` | **true** | `DocumentNode` or `undefined` | `undefined` |
-| `local.tokenProperty` | false    | `string`                      | `'token'`   |
-| `local.userQuery`     | **true** | `DocumentNode` or `undefined` | `undefined` |
-| `local.userProperty`  | false    | `string`                      | `'user'`    |
-| `debug`               | false    | `boolean`                     | `false`     |
-| `scopeKey`            | false    | `string`                      | `'scope'`     |
+- `enable`  
+    type : `boolean`  
+    required : `false`  
+    default :
+
+     ```js
+      qAuth:{
+        enable: true
+      }
+     ```  
+
+- `debug`  
+    type : `boolean`  
+    required : `false`  
+    default :
+
+     ```js
+      qAuth:{
+        debug: false
+      }
+     ```
+
+- `scopeKey`  
+  type : `string`  
+  required : `false`  
+  default :
+
+   ```js
+    qAuth:{
+      scopeKey: 'scope'
+    }
+   ```
+
+- `vuex`  
+  required : `false`  
+  default :  
+
+    ```js
+    qAuth:{
+        vuex:{
+          namespace: 'qAuth'
+        }
+    }
+    ```
+
+  - `namespace`  
+    type : `string`  
+    required : `false`  
+    default : `'qAuth'`  
+- `strategies`  
+  required : `true`  
+  default :  
+
+    ```js
+    qAuth:{
+        strategies: {
+          local: {
+            endpoints: {
+              login: false,
+              logout: false,
+              user: false
+            },
+            user: {
+              property: 'user'
+            },
+            token:{
+              property:'token'
+            }
+          }
+        }
+    }
+    ```
+
+  - `local`  
+        required : **`true`**  
+    - `endpoints`  
+        required : **`true`**  
+        default :  
+
+         ```js
+         endpoints: {
+           login: false,
+           logout: false,
+           user: false
+         }
+         ```
+
+      - `login`  
+        required : **`true`**  
+        type : `{mutation: DocumentNode}` or `false`  
+        default : `false`  
+        It should be like the following :
+
+        ```js
+        login:{
+          mutation: gql`
+            mutation login($data:LoginInput!){
+              login(data:$data){
+                token
+              }
+            }
+          `
+        }
+        ```
+
+      - `user`  
+       required : **`true`**  
+       type : `{query: DocumentNode}` or `false`  
+       default : `false`  
+       It should be like the following :
+ 
+        ```js
+        user:{
+          query: gql`
+            query me{
+              me{
+                user
+              }
+            }
+          `
+        }
+        ```
 
 ## Usage
 
@@ -152,21 +267,21 @@ this.$qAuth.login<TMutation,TVariables,TQuery,TUser>(loginMutationVariables)
 
 login result containing `{success, token, mutationResponse, user, queryResponse}` :
 
-- `success`:
-  - type : `boolean`
-  - returns `true` if login successful.
-- `token`:
-  - type: `string` | `null`
-  - returns `token` if `loginMutation` request successful.
-- `mutationResponse`:
-  - type: `FetchResult<TMutation, Record<string, any>, Record<string, any>>` | `null`
-  - returns `loginMutation` response if request successful.
-- `user`:
-  - type: `object` | `null`
-  - returns `user` object if `userQuery` request successful.
-- `queryResponse`:
-  - type: `FetchResult<TQuery, Record<string, any>, Record<string, any>>` | `null`
-  - returns `userQuery` response if request successful.
+- `success`:  
+   type : `boolean`  
+   returns `true` if login successful.
+- `token`:  
+   type: `string` | `null`  
+   returns `token` if `loginMutation` request successful.
+- `mutationResponse`:  
+   type: `FetchResult<TMutation, Record<string, any>, Record<string, any>>` | `null`  
+   returns `loginMutation` response if request successful.
+- `user`:  
+   type: `object` | `null`  
+   returns `user` object if `userQuery` request successful.
+- `queryResponse`:  
+   type: `FetchResult<TQuery, Record<string, any>, Record<string, any>>` | `null`  
+   returns `userQuery` response if request successful.
 
  ----------
 
@@ -221,7 +336,16 @@ export default {
 }
 ```
 
+## Examples
+
+- [basic example javascript](https://github.com/mAminP/nuxt-apollo-auth-example-javascript)
+
 ## TODO
 
 - [ ] redirect
+- [x] demo
+- [x] basic example javascript
+  - [ ] middleware
+- [ ] basic example typescript
+- [ ] logout qurey/mutation
   

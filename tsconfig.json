@@ -22,8 +22,5 @@
       "@types/jest"
     ]
   },
-  "include": [
-    "./src",
-    "plugins",
-    "plugin" ]
+  "include": ["./src"]
 }

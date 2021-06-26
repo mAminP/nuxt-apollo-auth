@@ -1,9 +1,5 @@
 import type { FetchResult } from 'apollo-link/lib/types'
-export type RecursivePartial<T> = {
-    [P in keyof T]?: T[P] extends (infer U)[]
-      ? RecursivePartial<U>[]
-      : RecursivePartial<T[P]>
-  }
+
 export type IqAuthState = {
     token: string | undefined
     user: object | undefined
