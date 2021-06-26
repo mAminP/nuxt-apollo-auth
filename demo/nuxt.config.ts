@@ -22,26 +22,17 @@ export default <NuxtConfig>{
     },
     qAuth: {
         scopeKey: 'roles',
-        local: {
-            loginMutation: gql`
-            mutation login($data:LoginInput!) {
-              login(data: $data){
-                  token
-              }
+        strategies:{
+            local:{
+                endpoints:{
+                    login:{
+                        mutation: gql`mutation login($data:LoginInput!) { login(data: $data){ token } } `
+                    },
+                    user:{
+                        query:gql`query me { me{ user{ id name roles } } }`
+                    }
+                }
             }
-             ` ,
-
-            userQuery: gql`
-           query me {
-             me{
-                user{
-          id
-          name
-          roles
-        }
-             }
-           }
-            `
         }
     },
     buildModules: [

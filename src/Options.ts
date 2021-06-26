@@ -28,7 +28,6 @@ export interface ModuleOptions {
 export const moduleDefaults: ModuleOptions = {
   strategies: {
     local: {
-      enabled: true,
       endpoints: {
         login: false,
         logout: false,

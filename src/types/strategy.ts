@@ -2,7 +2,6 @@ import { DocumentNode } from 'apollo-link';
 
 
 export interface LocalStrategy{
-    enabled: boolean
     endpoints:{
         login: { mutation: DocumentNode }| false,
         user: { query: DocumentNode } | false,
