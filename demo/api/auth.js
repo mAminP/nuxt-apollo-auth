@@ -41,6 +41,7 @@ const getUser = (token) => {
 }
 
 const typeDefs = gql`
+    scalar DateTime 
     type Account {
       id: ID!
       name: String!
@@ -57,9 +58,18 @@ const typeDefs = gql`
       user: Account!
     }
     type Mutation {
-      register(data:RegisterInput): Account!
-      login(data:LoginInput): AuthPayload!
+      register(data:RegisterInput!): Account!
+      login(data:LoginInput!): AuthPayload!
+      logout(data:LogoutInput!): LogoutPayload!
     }
+    
+    type LogoutPayload{
+      time: DateTime!
+    }
+    input LogoutInput{
+      time: DateTime!
+    }
+
     input RegisterInput{
       name: String!
       email: String!
@@ -76,6 +86,15 @@ const typeDefs = gql`
 
 const resolvers = {
   Mutation: {
+    logout(_, {data}, {user}, info){
+      if(!user) {
+        return new AuthenticationError("user not auth !!")
+      }
+      // logout ...
+      return {
+        time: data.time
+      }
+    },
     register(_, args, ctx, info) {
       return args.data
     },
@@ -95,7 +114,7 @@ const resolvers = {
     }
   },
   Query: {
-    me: (_,args,{user}) => {
+    me(_,args, {user} ,info)  {
       if(!user) {
         return new AuthenticationError("user not auth !!")
       }

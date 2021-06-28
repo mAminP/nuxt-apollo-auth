@@ -7,20 +7,24 @@
       >
         <v-toolbar-title>DEMO</v-toolbar-title>
       </nuxt-link>
-       <v-badge
+      <v-badge
         bordered
         :color="$qAuth.loggedIn ? 'success' : 'error'"
         :icon="$qAuth.loggedIn ? 'mdi-lock-open' : 'mdi-lock'"
         class="mx-3"
         overlap
       >
-       <v-chip label >loggedIn : {{$qAuth.loggedIn}}</v-chip>
+        <v-chip label>loggedIn : {{ $qAuth.loggedIn }}</v-chip>
       </v-badge>
-      
+
       <v-spacer></v-spacer>
-      <v-btn outlined class="mx-2" :to="{name: 'allowed'}">Allowed</v-btn>
-      <v-btn outlined class="mx-2" :to="{name: 'protected'}">Protected</v-btn>
-      <v-btn class="mx-2" v-if="!$qAuth.loggedIn" outlined :to="{ name: 'login' }"
+      <v-btn outlined class="mx-2" :to="{ name: 'allowed' }">Allowed</v-btn>
+      <v-btn outlined class="mx-2" :to="{ name: 'protected' }">Protected</v-btn>
+      <v-btn
+        class="mx-2"
+        v-if="!$qAuth.loggedIn"
+        outlined
+        :to="{ name: 'login' }"
         >Login</v-btn
       >
       <v-btn class="mx-2" v-else outlined @click.stop="logout">Logout</v-btn>
@@ -35,11 +39,26 @@
 
 <script lang="ts">
 import { Vue, Component, Prop } from "nuxt-property-decorator";
-
+import {
+  LogoutMutation,
+  LogoutMutationVariables,
+} from "../GraphQL/types/types";
 @Component({})
 export default class Default extends Vue {
   async logout() {
-    await this.$qAuth.logout();
+    try {
+      const res = await this.$qAuth.logout<
+        LogoutMutation,
+        LogoutMutationVariables
+      >({
+        data: {
+          time: new Date(),
+        }
+      });
+      console.log("res :>> ", res);
+    } catch (error) {
+      console.dir(error);
+    }
   }
 }
 </script>

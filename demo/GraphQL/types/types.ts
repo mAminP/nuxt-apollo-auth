@@ -9,6 +9,7 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  DateTime: any;
   /** The `Upload` scalar type represents a file upload. */
   Upload: any;
 };
@@ -34,9 +35,19 @@ export enum CacheControlScope {
   Private = 'PRIVATE'
 }
 
+
 export type LoginInput = {
   email: Scalars['String'];
   password: Scalars['String'];
+};
+
+export type LogoutInput = {
+  time: Scalars['DateTime'];
+};
+
+export type LogoutPayload = {
+  __typename?: 'LogoutPayload';
+  time: Scalars['DateTime'];
 };
 
 export type MePayload = {
@@ -48,16 +59,22 @@ export type Mutation = {
   __typename?: 'Mutation';
   register: Account;
   login: AuthPayload;
+  logout: LogoutPayload;
 };
 
 
 export type MutationRegisterArgs = {
-  data?: Maybe<RegisterInput>;
+  data: RegisterInput;
 };
 
 
 export type MutationLoginArgs = {
-  data?: Maybe<LoginInput>;
+  data: LoginInput;
+};
+
+
+export type MutationLogoutArgs = {
+  data: LogoutInput;
 };
 
 export type Query = {
@@ -108,5 +125,18 @@ export type LoginMutation = (
   & { login: (
     { __typename?: 'AuthPayload' }
     & Pick<AuthPayload, 'token'>
+  ) }
+);
+
+export type LogoutMutationVariables = Exact<{
+  data: LogoutInput;
+}>;
+
+
+export type LogoutMutation = (
+  { __typename?: 'Mutation' }
+  & { logout: (
+    { __typename?: 'LogoutPayload' }
+    & Pick<LogoutPayload, 'time'>
   ) }
 );

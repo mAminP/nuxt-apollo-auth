@@ -31,4 +31,10 @@ export abstract class UserM {
      }
    }
     `
+     public static logout = gql`
+     mutation logout($data:LogoutInput!){
+      logout(data:$data){
+        time
+      }
+    }`
 }

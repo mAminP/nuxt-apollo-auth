@@ -10,6 +10,9 @@ export type TokenResult<TMutation = any> = {
     token: string | null
     response:FetchResult<TMutation, Record<string, any>, Record<string, any>> | null
 }
+export type LogoutResult<TMutation = any> = {
+    response:FetchResult<TMutation, Record<string, any>, Record<string, any>> | null
+}
 
 export type UserResult<TQuery = any, TUser = any> = {
     user: TUser | null

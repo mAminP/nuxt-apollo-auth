@@ -1,12 +1,12 @@
 import { ModuleOptions } from "../Options";
 import { Storage } from "./storage";
-import { LocalStrategy, LoginResult, TokenResult, UserResult } from '../types';
+import { LocalStrategy, LoginResult, LogoutResult, TokenResult, UserResult } from '../types';
 import { Context } from "@nuxt/types";
 import { Debugger, Helpers } from '../utils';
 import consola from 'consola'
 export class qAuth {
     private readonly ctx: Context;
-    public  options: ModuleOptions;
+    public options: ModuleOptions;
     private readonly _helpers: Helpers
     private readonly _debugger: Debugger
     public $storage: Storage
@@ -19,7 +19,7 @@ export class qAuth {
         this._debugger = new Debugger(options)
         this._helpers = new Helpers(options, this._debugger);
     }
-    
+
     /**
      * Returns whether the user is logged in or not?!
      * @returns boolean
@@ -68,19 +68,32 @@ export class qAuth {
     /**
      * logout user
      */
-    public async logout(): Promise<void> {
+    public async logout<TMutation = any, TVariables = any>(data: TVariables = null): Promise<LogoutResult<TMutation> | null> {
         const apollo = this.ctx.app.apolloProvider.defaultClient
         try {
-
+            let res = null
             this._debugger.info('logging out ...')
+
+            if (this.options.strategies.local && this.options.strategies.local.endpoints.logout) {
+                res = await apollo.mutate<TMutation, TVariables>({
+                    mutation: this.options.strategies.local.endpoints.logout.mutation,
+                    variables: {
+                        ...data
+                    }
+                })
+            }
 
             await this.ctx.$apolloHelpers.onLogout(apollo)
 
             this.$storage.SetState(undefined, undefined)
 
             this._debugger.success('logged out.')
-
-            return Promise.resolve()
+          
+            if(this.options.redirect.logout){
+                this.ctx.redirect(this.options.redirect.logout)
+            }
+           
+            return Promise.resolve({ response: res } || null)
 
         } catch (error) {
             return Promise.reject(error)
@@ -91,9 +104,9 @@ export class qAuth {
             const apollo = this.ctx.app.apolloProvider.defaultClient
 
             this._debugger.info('Trying to fetch Token ...')
-            
-            const local = this.options.strategies.local 
-            if (local  === false) {
+
+            const local = this.options.strategies.local
+            if (local === false) {
                 return
             }
             const loginOptions = local.endpoints.login
@@ -120,8 +133,8 @@ export class qAuth {
 
         try {
             this._debugger.info('Trying to fetch User ...')
-            const local = this.options.strategies.local 
-            if (local  === false) {
+            const local = this.options.strategies.local
+            if (local === false) {
                 return
             }
             const UserOptions = local.endpoints.user
@@ -160,7 +173,7 @@ export class qAuth {
 
 
     private async init(): Promise<void> {
-        
+
         if (!this.ctx.$apolloHelpers) {
             consola.error('[QAUTH] add the @nuxtjs/apollo module to nuxt.config file')
             return

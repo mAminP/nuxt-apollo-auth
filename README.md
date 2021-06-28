@@ -54,7 +54,7 @@
 }
  ```
 
- > read `@nuxtjs/apollo` configuration at [this repo]([https://link](https://github.com/nuxt-community/apollo-module))
+ > read `@nuxtjs/apollo` configuration at [this repo](https://github.com/nuxt-community/apollo-module)
 
 ### Using with TypeScript
 
@@ -186,7 +186,7 @@
        type : `{query: DocumentNode}` or `false`  
        default : `false`  
        It should be like the following :
- 
+
         ```js
         user:{
           query: gql`
@@ -339,13 +339,16 @@ export default {
 ## Examples
 
 - [basic example javascript](https://github.com/mAminP/nuxt-apollo-auth-example-javascript)
+- [basic example typescript](https://github.com/mAminP/nuxt-apollo-auth-example-typescript)
 
 ## TODO
 
-- [ ] redirect
+- [X] redirect
+- [ ] new Docs
+- [ ] E2E test
 - [x] demo
 - [x] basic example javascript
-  - [ ] middleware
-- [ ] basic example typescript
-- [ ] logout qurey/mutation
+  - [X] middleware
+- [X] basic example typescript
+- [X] logout mutation
   

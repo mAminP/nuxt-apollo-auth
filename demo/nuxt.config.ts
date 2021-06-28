@@ -1,6 +1,9 @@
 import { NuxtConfig } from "@nuxt/types";
 import gql from 'graphql-tag'
 export default <NuxtConfig>{
+    // router: {
+    //     middleware: ['qAuth']
+    // },
     serverMiddleware: ['~/api/auth'],
     head: {
         title: 'demo',
@@ -22,14 +25,21 @@ export default <NuxtConfig>{
     },
     qAuth: {
         scopeKey: 'roles',
-        strategies:{
-            local:{
-                endpoints:{
-                    login:{
+        strategies: {
+            local: {
+                endpoints: {
+                    login: {
                         mutation: gql`mutation login($data:LoginInput!) { login(data: $data){ token } } `
                     },
-                    user:{
-                        query:gql`query me { me{ user{ id name roles } } }`
+                    user: {
+                        query: gql`query me { me{ user{ id name roles } } }`
+                    }, 
+                    logout: {
+                        mutation: gql`mutation logout($data:LogoutInput!){
+                            logout(data:$data){
+                              time
+                            }
+                          }`
                     }
                 }
             }
