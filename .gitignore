@@ -3,3 +3,4 @@ dist/
 temp/
 coverage/
 demo/.nuxt/
+docs/node_modules/

@@ -1,0 +1,10 @@
+{
+  "title": "Nuxt Apollo Auth",
+  "url": "https://nuxt-apollo-auth.github.io/",
+  "logo": {
+    "light": "/logo-light.svg",
+    "dark": "/logo-dark.svg"
+  },
+  "github": "mAminP/nuxt-apollo-auth",
+  "twitter": "@nuxt_js"
+}
