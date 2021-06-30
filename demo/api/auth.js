@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 const jwt = require('jsonwebtoken');
 const { ApolloServer, gql, ApolloError, AuthenticationError } = require('apollo-server');
 const { accounts } = require('./db/index')

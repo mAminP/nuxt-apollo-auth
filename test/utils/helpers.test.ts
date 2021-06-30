@@ -117,7 +117,6 @@ describe("Helpers class", () => {
         })
         it("should throw Error if  login endpoints === false", () => {
             options.strategies.local = {
-                enabled: true,
                 token: {
                     property: 'token'
                 },
@@ -134,7 +133,6 @@ describe("Helpers class", () => {
         })
         it("should throw Error if  login mutation !== typeof DocumentNode", () => {
             options.strategies.local = {
-                enabled: true,
                 endpoints: {
                     login: false,
                     user: {
@@ -153,7 +151,6 @@ describe("Helpers class", () => {
         })
         it("should throw Error user endpoints === false", () => {
             options.strategies.local = {
-                enabled: true,
                 endpoints: {
                     login: {
                         mutation: gql`mutation{me}`
@@ -172,7 +169,6 @@ describe("Helpers class", () => {
         })
         it("should throw Error if  user query !== typeof DocumentNode", () => {
             options.strategies.local = {
-                enabled: true,
                 endpoints: {
                     login: {
                         mutation: gql`mutation{me}`
@@ -191,7 +187,6 @@ describe("Helpers class", () => {
         })
         it("should not throw Error if  login mutation == typeof DocumentNode", () => {
             options.strategies.local = {
-                enabled: true,
                 endpoints: {
                     login: {
                         mutation: gql`mutation{me}`
@@ -212,7 +207,6 @@ describe("Helpers class", () => {
         })
         it("should not throw Error if  user query == typeof DocumentNode", () => {
             options.strategies.local = {
-                enabled: true,
                 endpoints: {
                     login: {
                         mutation: gql`mutation{me}`
