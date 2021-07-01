@@ -8,20 +8,22 @@
           :rules="rules.email"
           label="email"
           required
-        ></v-text-field>
+        />
         <v-text-field
           v-model="requset.password"
           :rules="rules.password"
           label="password"
           type="password"
           required
-        ></v-text-field>
+        />
       </v-card-text>
       <v-card-actions>
-        <v-btn :disabled="!valid" @click.stop="submitForm" color="success">
+        <v-btn :disabled="!valid" :loading="$qAuth.busy" color="success" @click.stop="submitForm">
           Login
         </v-btn>
-        <v-btn color="error" outlined @click.stop="reset"> Reset Form </v-btn>
+        <v-btn color="error" outlined @click.stop="reset">
+          Reset Form
+        </v-btn>
 
         <v-btn color="warning" outlined @click.stop="resetValidation">
           Reset Validation
@@ -37,9 +39,9 @@ import {
   LoginMutation,
   LoginInput,
   MeQuery,
-  Account,
-} from "demo/GraphQL/types/types";
-import { Vue, Component, Ref } from "vue-property-decorator";
+  Account
+} from 'demo/GraphQL/types/types'
+import { Vue, Component, Ref } from 'vue-property-decorator'
 
 type VForm = Vue & {
   validate: () => boolean;
@@ -52,44 +54,46 @@ class LoginRequset implements LoginInput {
 }
 
 @Component({
-  data() {
+  data () {
     return {
       rules: {
         email: [
-          (v) => !!v || "E-mail is required",
-          (v) => /.+@.+/.test(v) || "E-mail must be valid",
+          v => !!v || 'E-mail is required',
+          v => /.+@.+/.test(v) || 'E-mail must be valid'
         ],
-        password: [(v) => !!v || "Password is required"],
-      },
-    };
-  },
+        password: [v => !!v || 'Password is required']
+      }
+    }
+  }
 })
 export default class LoginComponent extends Vue {
-  @Ref("form") readonly form!: VForm;
+  @Ref('form') readonly form!: VForm;
   valid: boolean = true;
   public requset = new LoginRequset();
   rules: any;
-  async submitForm() {
+  async submitForm () {
     if (this.form.validate()) {
       try {
-        const res = await this.$qAuth.login<
+        await this.$qAuth.login<
           LoginMutation,
           LoginMutationVariables,
           MeQuery,
           Account
-        >({ data: this.requset });
+        >({ data: this.requset })
       } catch (error) {
-        const {graphQLErrors} = error
-        console.log('graphQLErrors :>> ', graphQLErrors[0].message);
+        const { graphQLErrors } = error
+        console.log('graphQLErrors :>> ', graphQLErrors[0].message)
         console.dir(error)
       }
     }
   }
-  reset() {
-    this.form.reset();
+
+  reset () {
+    this.form.reset()
   }
-  resetValidation() {
-    this.form.resetValidation();
+
+  resetValidation () {
+    this.form.resetValidation()
   }
 }
 </script>

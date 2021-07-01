@@ -14,11 +14,11 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator'
+import { Vue, Component } from 'vue-property-decorator'
 
 @Component({
-     middleware: ["qAuth"],
-     qAuth:false
+  middleware: ['qAuth'],
+  qAuth: false
 })
 export default class Allowed extends Vue {
 

@@ -1,17 +1,16 @@
 import consola from 'consola'
 import { ModuleOptions } from './../Options'
 import { Debugger } from './debugger'
-import { LocalStrategy } from './../types/strategy';
-import type { DocumentNode } from 'apollo-link';
+import { LocalStrategy } from './../types/strategy'
 export class Helpers {
   private readonly _options: ModuleOptions
   private readonly _debugger: Debugger
-  constructor(options: ModuleOptions, appDebugger: Debugger) {
+  constructor (options: ModuleOptions, appDebugger: Debugger) {
     this._options = options
     this._debugger = appDebugger
   }
 
-  public userExtraction<TUser>(object: object): TUser | null {
+  public userExtraction<TUser> (object: object): TUser | null {
     try {
       this._debugger.info('Trying to automatically extract user')
       const jsonStr: string = JSON.stringify(object)
@@ -48,13 +47,12 @@ export class Helpers {
     }
   }
 
-  public tokenExtraction(object: object): string | null {
+  public tokenExtraction (object: object): string | null {
     try {
       this._debugger.info('Trying to automatically extract token')
       const jsonStr: string = JSON.stringify(object)
       const includesToken = jsonStr.includes((this._options.strategies.local as LocalStrategy).token.property)
       if (includesToken) {
-
         this._debugger.info('The token inside the object was identified. Extracting ...')
         const splitedArr = jsonStr.split('"')
         const indexOfToken = splitedArr.indexOf((this._options.strategies.local as LocalStrategy).token.property)
@@ -72,7 +70,7 @@ export class Helpers {
     }
   }
 
-  public checkModuleOptionsForInitializeModule(): void {
+  public checkModuleOptionsForInitializeModule (): void {
     /* istanbul ignore next */
     if (process.env.NODE_ENV !== 'development') {
       this._options.debug = false
@@ -105,8 +103,7 @@ export class Helpers {
    * @param  {string} propName Dot notation, like 'this.a.b.c'
    * @return {*}          A property value
    */
-  public getProp(holder: Record<string, any>, propName: string | false): unknown {
-
+  public getProp (holder: Record<string, any>, propName: string | false): unknown {
     if (!propName || !holder || typeof holder !== 'object') {
       return holder
     }
@@ -127,5 +124,4 @@ export class Helpers {
 
     return result
   }
-
 }

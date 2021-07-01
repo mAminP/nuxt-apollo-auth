@@ -1,6 +1,6 @@
- import 'vue'
- import '@nuxt/types'
-import {ModuleOptions,RecursivePartial,qAuth} from './runtime';
+import 'vue'
+import '@nuxt/types'
+import { ModuleOptions, RecursivePartial, qAuth } from './runtime'
 declare module '@nuxt/types' {
     interface Context { $qAuth : qAuth}
     interface NuxtAppOptions {$qAuth : qAuth }
@@ -14,7 +14,7 @@ declare module '@nuxt/types' {
 declare module 'vue/types/options' {
   // eslint-disable-next-line no-unused-vars,@typescript-eslint/no-unused-vars
   interface ComponentOptions<V> {
-    qAuth?: true | false 
+    qAuth?: true | false
   }
 }
 

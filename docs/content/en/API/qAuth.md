@@ -35,6 +35,16 @@ this.$qAuth.loggedIn
 this.$store.getters['qAuth/loggedIn']
 ```
 
+### `busy`
+
+```js
+// Access using $qAuth
+this.$qAuth.busy
+
+// Access using vuex
+this.$store.getters['qAuth/busy']
+```
+
 ## methods
 
 ### `login(loginMutationVariables)`

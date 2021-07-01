@@ -1,4 +1,3 @@
-import { DocumentNode } from 'apollo-link'
 import { LocalStrategy } from './types'
 
 export interface ModuleOptions {
@@ -36,8 +35,8 @@ export const moduleDefaults: ModuleOptions = {
       user: {
         property: 'user'
       },
-      token:{
-        property:'token'
+      token: {
+        property: 'token'
       }
     }
   },
@@ -61,4 +60,3 @@ export const moduleDefaults: ModuleOptions = {
   debug: false
 
 }
-

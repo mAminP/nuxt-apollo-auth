@@ -1,8 +1,8 @@
 <h1 align="center" >Nuxt Apollo Auth</h1>
 
-> **:warning::exclamation::warning:    WARNING    :warning::exclamation::warning:**
+> **<h2 align="center" >⚠️    WARNING    ⚠️</h2>**
 >
-> **This package is under development**
+> **<h2 align="center" >This package is under development<h2>**
 
 ----------
 
@@ -27,8 +27,14 @@ $ npm run dev
 ## TODO
 
 - [X] redirect
+  - [X] Docs
 - [X] new Docs
-- [ ] E2E test
+  - [X] user and token Property
+  - [X] logout
+    - [ ] typescript
+- [X] E2E test
+- [X] busy
+  - [X] busy docs
 - [x] demo
 - [x] basic example javascript
   - [X] middleware

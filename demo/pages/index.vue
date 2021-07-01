@@ -8,12 +8,12 @@
         <v-subheader>available users:</v-subheader>
         <v-row no-gutters color="transparent">
           <v-col
+            v-for="user in users"
+            :key="user.id"
             lg="4"
             md="6"
             sm="6"
             cols="12"
-            v-for="user in users"
-            :key="user.id"
             class="pa-3"
           >
             <v-card
@@ -28,7 +28,7 @@
               <v-list dense color="transparent">
                 <v-list-item v-for="(value, name, index) in user" :key="index">
                   <span class="grey--text mx-1" v-text="name" /> :
-                  <span v-text="value" class="mx-1" />
+                  <span class="mx-1" v-text="value" />
                 </v-list-item>
               </v-list>
             </v-card>
@@ -43,28 +43,27 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from "nuxt-property-decorator";
-import { Context } from "@nuxt/types";
-import { UserQ } from "../GraphQL/userGQL";
-import { Account, UsersQuery } from "../GraphQL/types/types";
+import { Vue, Component } from 'nuxt-property-decorator'
+import { Context } from '@nuxt/types'
+import { UserQ } from '../GraphQL/userGQL'
+import { Account, UsersQuery } from '../GraphQL/types/types'
 @Component({
-  
+
 })
 export default class Index extends Vue {
   users: Account[] = [];
-  async asyncData(ctx: Context) {
+  async asyncData (ctx: Context) {
     try {
-      const apollo = ctx.app.apolloProvider.defaultClient;
-    const { data } = await apollo.query<UsersQuery>({
-      query: UserQ.users,
-    });
-    return {
-      users: data.accounts,
-    };
+      const apollo = ctx.app.apolloProvider.defaultClient
+      const { data } = await apollo.query<UsersQuery>({
+        query: UserQ.users
+      })
+      return {
+        users: data.accounts
+      }
     } catch (error) {
-      console.log('error :>> ', error);
+      console.log('error :>> ', error)
     }
-    
   }
 }
 </script>

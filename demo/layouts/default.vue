@@ -9,25 +9,34 @@
       </nuxt-link>
       <v-badge
         bordered
-        :color="$qAuth.loggedIn ? 'success' : 'error'"
-        :icon="$qAuth.loggedIn ? 'mdi-lock-open' : 'mdi-lock'"
+        :color="$qAuth.busy? 'warning' :$qAuth.loggedIn ? 'success' : 'error'"
+        :icon="$qAuth.busy? 'mdi-key-outline':$qAuth.loggedIn ? 'mdi-lock-open' : 'mdi-lock'"
         class="mx-3"
         overlap
       >
-        <v-chip label>loggedIn : {{ $qAuth.loggedIn }}</v-chip>
+        <v-chip label>
+          loggedIn : {{ $qAuth.loggedIn }}
+        </v-chip>
       </v-badge>
 
-      <v-spacer></v-spacer>
-      <v-btn outlined class="mx-2" :to="{ name: 'allowed' }">Allowed</v-btn>
-      <v-btn outlined class="mx-2" :to="{ name: 'protected' }">Protected</v-btn>
+      <v-spacer />
+      <v-btn outlined class="mx-2" :to="{ name: 'allowed' }">
+        Allowed
+      </v-btn>
+      <v-btn outlined class="mx-2" :to="{ name: 'protected' }">
+        Protected
+      </v-btn>
       <v-btn
-        class="mx-2"
         v-if="!$qAuth.loggedIn"
+        class="mx-2"
         outlined
         :to="{ name: 'login' }"
-        >Login</v-btn
       >
-      <v-btn class="mx-2" v-else outlined @click.stop="logout">Logout</v-btn>
+        Login
+      </v-btn>
+      <v-btn v-else class="mx-2" outlined @click.stop="logout">
+        Logout
+      </v-btn>
     </v-app-bar>
     <v-main>
       <v-container class="fill-height">
@@ -38,26 +47,26 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from "nuxt-property-decorator";
+import { Vue, Component } from 'nuxt-property-decorator'
 import {
   LogoutMutation,
-  LogoutMutationVariables,
-} from "../GraphQL/types/types";
+  LogoutMutationVariables
+} from '../GraphQL/types/types'
 @Component({})
 export default class Default extends Vue {
-  async logout() {
+  async logout () {
     try {
       const res = await this.$qAuth.logout<
         LogoutMutation,
         LogoutMutationVariables
       >({
         data: {
-          time: new Date(),
+          time: new Date()
         }
-      });
-      console.log("res :>> ", res);
+      })
+      console.log('res :>> ', res)
     } catch (error) {
-      console.dir(error);
+      console.dir(error)
     }
   }
 }

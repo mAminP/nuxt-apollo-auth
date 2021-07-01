@@ -1,9 +1,8 @@
 /* istanbul ignore file */
-const jwt = require('jsonwebtoken');
-const { ApolloServer, gql, ApolloError, AuthenticationError } = require('apollo-server');
+const jwt = require('jsonwebtoken')
+const { ApolloServer, gql, ApolloError, AuthenticationError } = require('apollo-server')
 const { accounts } = require('./db/index')
-var JWTprivateKey = 'PrIvAtEkEy!@!@!@!@#!@!@@';
-
+const JWTprivateKey = 'PrIvAtEkEy!@!@!@!@#!@!@@'
 
 const generateToken = (user) => {
   const token = jwt.sign({
@@ -13,14 +12,14 @@ const generateToken = (user) => {
     roles: user.roles
   }, JWTprivateKey, {
     algorithm: 'HS256',
-    expiresIn: 60*60*60
-  });
+    expiresIn: 60 * 60 * 60
+  })
   return token
 }
 
 const decodeToken = (token) => {
   try {
-    var decoded = jwt.verify(token, JWTprivateKey);
+    const decoded = jwt.verify(token, JWTprivateKey)
     return decoded
   } catch (err) {
     throw new Error('login Again ')
@@ -29,13 +28,11 @@ const decodeToken = (token) => {
 
 const getUser = (token) => {
   try {
-
     const decodedToken = decodeToken(token.split(' ')[1])
 
     const user = accounts.find(u => u.id === decodedToken.userId)
 
     return user || null
-
   } catch (error) {
     return null
   }
@@ -87,19 +84,19 @@ const typeDefs = gql`
 
 const resolvers = {
   Mutation: {
-    logout(_, {data}, {user}, info){
-      if(!user) {
-        return new AuthenticationError("user not auth !!")
+    logout (_, { data }, { user }) {
+      if (!user) {
+        return new AuthenticationError('user not auth !!')
       }
       // logout ...
       return {
         time: data.time
       }
     },
-    register(_, args, ctx, info) {
+    register (_, args) {
       return args.data
     },
-    login(_, { data }, ctx, info) {
+    login (_, { data }) {
       const { email, password } = data
 
       const user = accounts.find(q => q.email === email)
@@ -115,9 +112,9 @@ const resolvers = {
     }
   },
   Query: {
-    me(_,args, {user} ,info)  {
-      if(!user) {
-        return new AuthenticationError("user not auth !!")
+    me (_, _args, { user }) {
+      if (!user) {
+        return new AuthenticationError('user not auth !!')
       }
       return {
         user
@@ -131,22 +128,21 @@ const server = new ApolloServer({
   typeDefs,
   resolvers,
   context: ({ req }) => {
+    // Get the user token from the headers.
+    const token = req.headers.authorization || ''
 
-       // Get the user token from the headers.
-    const token = req.headers.authorization || '';
-
-       // Try to retrieve a user with the token
-    const user = getUser(token);
+    // Try to retrieve a user with the token
+    const user = getUser(token)
 
     //   // Add the user to the context
-    return { user };
+    return { user }
   }
-});
+})
 
 server.listen().then(({ url }) => {
   console.log(`🚀 Server ready at ${url}`)
-});
+})
 
-module.exports  = {
+module.exports = {
   handler: server
 }

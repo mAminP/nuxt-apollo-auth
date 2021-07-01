@@ -1,4 +1,4 @@
-import gql from "graphql-tag";
+import { gql } from 'graphql-tag'
 
 export abstract class UserQ {
   public static users = gql`

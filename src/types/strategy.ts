@@ -1,5 +1,4 @@
-import { DocumentNode } from 'apollo-link';
-
+import { DocumentNode } from 'apollo-link'
 
 export interface LocalStrategy{
     endpoints:{
@@ -8,7 +7,7 @@ export interface LocalStrategy{
         logout: { mutation: DocumentNode } | false,
     }
     user:{
-        property: string ,
+        property: string,
     },
     token: {
         property: string,

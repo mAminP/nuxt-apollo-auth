@@ -1,11 +1,11 @@
 <template>
-        <v-row  class="" align="center" justify="center">
-          <LoginComponent />
-        </v-row>
+  <v-row class="" align="center" justify="center">
+    <LoginComponent />
+  </v-row>
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from 'vue-property-decorator'
+import { Vue, Component } from 'vue-property-decorator'
 
 @Component({})
 export default class Login extends Vue {

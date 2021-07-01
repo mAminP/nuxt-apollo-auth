@@ -61,8 +61,8 @@ qAuth:{
 
 ## `strategies`
 
-- required : `true`  
-- default :  
+- required: **`true`**
+- default:  
 
 ```js
 qAuth:{
@@ -84,11 +84,11 @@ qAuth:{
 }
 ```
 
-### `local`  
+### `strategies.local`  
 
 - required: **`true`**  
 
-#### `endpoints`  
+#### `strategies.local.endpoints`  
 
 - required: **`true`**
 - default:
@@ -101,7 +101,7 @@ endpoints: {
 }
 ```
 
-##### `login`
+##### `strategies.local.endpoints.login`
 
 - required: **`true`**
 - type: `{mutation: DocumentNode}` or `false`
@@ -120,7 +120,26 @@ login:{
 }
 ```
 
-##### `user`
+##### `strategies.local.endpoints.logout`
+
+- required: `false`
+- type: `{mutation: DocumentNode}` or `false`
+- default: `false`
+It can be like the following :
+
+```graphql
+logout:{
+  mutation: gql`
+    mutation logout($data:LogoutInput!){
+      logout(data:$data){
+        ...
+      }
+    }
+  `
+}
+```
+
+##### `strategies.local.endpoints.user`
 
 - required : **`true`**  
 - type : `{query: DocumentNode}` or `false`  
@@ -141,5 +160,40 @@ user:{
     }
   `
 }
-``` 
+```
 
+#### `strategies.local.user.property`
+
+- required: `false`
+- type : `string`
+- default: `'user'`
+
+#### `strategies.local.token.property`
+
+- required: `false`
+- type: `string`
+- default: `'token'`
+
+## `redirect`
+
+- required: `false`  
+- default:
+
+```js
+  redirect: {
+    login: '/login',
+    logout: '/'
+  }
+```
+
+### `redirect.login`
+
+- required: `false`
+- type: `string`
+- default: `'/login'`
+
+### `redirect.logout`
+
+- required: `false`
+- type: `string`
+- default: `'/'`
